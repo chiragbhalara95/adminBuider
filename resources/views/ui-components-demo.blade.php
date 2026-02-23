@@ -63,9 +63,31 @@
       'full_name' => 'Jane Doe',
       'role' => 'editor',
     ];
+
+    $tableColumns = [
+      ['key' => 'id', 'label' => 'ID'],
+      ['key' => 'name', 'label' => 'Name'],
+      ['key' => 'email', 'label' => 'Email'],
+      [
+        'key' => 'status',
+        'label' => 'Status',
+        'type' => 'badge',
+        'badge_map' => [
+          'Active' => 'bg-emerald-100 text-emerald-700',
+          'Pending' => 'bg-amber-100 text-amber-700',
+          'Blocked' => 'bg-red-100 text-red-700',
+        ],
+      ],
+    ];
+
+    $tableRows = [
+      ['id' => 1, 'name' => 'Jane Doe', 'email' => 'jane@example.com', 'status' => 'Active'],
+      ['id' => 2, 'name' => 'John Smith', 'email' => 'john@example.com', 'status' => 'Pending'],
+      ['id' => 3, 'name' => 'Aisha Khan', 'email' => 'aisha@example.com', 'status' => 'Blocked'],
+    ];
   @endphp
 
-  <div class="mx-auto max-w-3xl space-y-6 rounded-2xl bg-white p-6 shadow">
+  <div class="mx-auto max-w-5xl space-y-6 rounded-2xl bg-white p-6 shadow">
     <h1 class="text-xl font-semibold text-gray-900">Laravel UI Components</h1>
 
     <div>
@@ -99,7 +121,21 @@
       <h2 class="text-lg font-semibold text-gray-900">Dynamic Fields (Array Driven)</h2>
       <x-ui.dynamic-fields :fields="$dynamicFields" :values="$dynamicValues" :columns="2" />
     </div>
+
+    <div class="space-y-3 border-t border-gray-200 pt-6">
+      <h2 class="text-lg font-semibold text-gray-900">DataTable (Array Driven)</h2>
+      <x-ui.datatable
+        id="users-table"
+        :columns="$tableColumns"
+        :rows="$tableRows"
+        :filters="[
+          ['key' => 'status', 'label' => 'Status'],
+        ]"
+        :showIndex="true"
+        :perPage="2"
+        :perPageOptions="[2, 5, 10]"
+      />
+    </div>
   </div>
 </body>
 </html>
-
