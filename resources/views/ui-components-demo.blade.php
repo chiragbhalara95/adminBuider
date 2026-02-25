@@ -1,16 +1,9 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UI Components Demo</title>
-  @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-  @else
-    <script src="https://cdn.tailwindcss.com"></script>
-  @endif
-</head>
-<body class="bg-gray-50 p-6">
+@extends('layouts.theme')
+
+@section('title', 'UI Components Demo')
+@section('body_class', 'bg-gray-50 p-6')
+
+@section('content')
   @php
     $dynamicFields = [
       [
@@ -137,5 +130,4 @@
       />
     </div>
   </div>
-</body>
-</html>
+@endsection
