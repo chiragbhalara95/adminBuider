@@ -39,7 +39,7 @@
   })"
   x-init="init()"
   id="{{ $id }}"
-  class="space-y-4 rounded-xl border border-gray-200 bg-white p-4"
+  class="space-y-4 rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900"
 >
   <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
     <div class="flex w-full flex-col gap-3 sm:flex-row sm:items-center">
@@ -47,13 +47,13 @@
         type="search"
         x-model="search"
         @input="onSearchInput"
-        class="h-10 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+        class="h-10 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white/90 dark:placeholder:text-white/30"
         :placeholder="searchPlaceholder"
       />
 
       <template x-for="filter in filters" :key="filter.key">
         <select
-          class="h-10 min-w-40 rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+          class="h-10 min-w-40 rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white/90"
           x-model="filterValues[filter.key]"
           @change="applyFilters"
         >
@@ -66,11 +66,11 @@
     </div>
 
     <div class="flex items-center gap-2 text-sm">
-      <span class="text-gray-600">Show</span>
+      <span class="text-gray-600 dark:text-gray-400">Show</span>
       <select
         x-model.number="perPage"
         @change="changePerPage"
-        class="h-10 rounded-lg border border-gray-300 bg-white px-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+        class="h-10 rounded-lg border border-gray-300 bg-white px-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white/90"
       >
         <template x-for="size in perPageOptions" :key="size">
           <option :value="size" x-text="size"></option>
@@ -79,17 +79,17 @@
     </div>
   </div>
 
-  <div class="overflow-x-auto rounded-lg border border-gray-200">
-    <table class="min-w-full divide-y divide-gray-200">
-      <thead class="bg-gray-50">
+  <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-800">
+    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
+      <thead class="bg-gray-50 dark:bg-gray-800/50">
         <tr>
           <th
             x-show="showIndex"
-            class="whitespace-nowrap px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500"
+            class="whitespace-nowrap px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400"
           >#</th>
           <template x-for="col in columns" :key="col.key">
             <th
-              class="whitespace-nowrap px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500"
+              class="whitespace-nowrap px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400"
               :class="isSortable(col) ? 'cursor-pointer select-none' : ''"
               @click="toggleSort(col)"
             >
@@ -102,11 +102,11 @@
           </template>
         </tr>
       </thead>
-      <tbody class="divide-y divide-gray-200 bg-white">
+      <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-800 dark:bg-gray-900">
         <template x-if="loading">
           <tr>
             <td
-              class="px-4 py-8 text-center text-sm text-gray-500"
+              class="px-4 py-8 text-center text-sm text-gray-500 dark:text-gray-400"
               :colspan="columns.length + (showIndex ? 1 : 0)"
             >Loading...</td>
           </tr>
@@ -115,7 +115,7 @@
         <template x-if="!loading && error">
           <tr>
             <td
-              class="px-4 py-8 text-center text-sm text-red-600"
+              class="px-4 py-8 text-center text-sm text-red-600 dark:text-red-400"
               :colspan="columns.length + (showIndex ? 1 : 0)"
               x-text="error"
             ></td>
@@ -125,7 +125,7 @@
         <template x-if="!loading && !error && displayedRows.length === 0">
           <tr>
             <td
-              class="px-4 py-8 text-center text-sm text-gray-500"
+              class="px-4 py-8 text-center text-sm text-gray-500 dark:text-gray-400"
               :colspan="columns.length + (showIndex ? 1 : 0)"
               x-text="emptyText"
             ></td>
@@ -133,10 +133,10 @@
         </template>
 
         <template x-for="(row, rowIndex) in displayedRows" :key="row.id ?? rowIndex">
-          <tr class="hover:bg-gray-50">
-            <td x-show="showIndex" class="px-4 py-3 text-sm text-gray-600" x-text="rowNumber(rowIndex)"></td>
+          <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+            <td x-show="showIndex" class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300" x-text="rowNumber(rowIndex)"></td>
             <template x-for="col in columns" :key="col.key">
-              <td class="px-4 py-3 text-sm text-gray-700">
+              <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
                 <template x-if="col.type === 'badge'">
                   <span
                     class="inline-flex rounded-full px-2.5 py-1 text-xs font-medium"
@@ -155,13 +155,13 @@
     </table>
   </div>
 
-  <div class="flex flex-col gap-3 text-sm text-gray-600 sm:flex-row sm:items-center sm:justify-between">
+  <div class="flex flex-col gap-3 text-sm text-gray-600 dark:text-gray-400 sm:flex-row sm:items-center sm:justify-between">
     <p x-text="paginationText()"></p>
 
     <div class="flex items-center gap-1">
       <button
         type="button"
-        class="rounded-lg border border-gray-300 px-3 py-1.5 text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+        class="rounded-lg border border-gray-300 px-3 py-1.5 text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
         @click="prevPage"
         :disabled="currentPage <= 1 || loading"
       >Prev</button>
@@ -170,7 +170,7 @@
         <button
           type="button"
           class="rounded-lg border px-3 py-1.5"
-          :class="page === currentPage ? 'border-indigo-600 bg-indigo-600 text-white' : 'border-gray-300 text-gray-700 hover:bg-gray-50'"
+          :class="page === currentPage ? 'border-indigo-600 bg-indigo-600 text-white' : 'border-gray-300 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800'"
           @click="goToPage(page)"
           :disabled="loading"
           x-text="page"
@@ -179,7 +179,7 @@
 
       <button
         type="button"
-        class="rounded-lg border border-gray-300 px-3 py-1.5 text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+        class="rounded-lg border border-gray-300 px-3 py-1.5 text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
         @click="nextPage"
         :disabled="currentPage >= lastPage || loading"
       >Next</button>

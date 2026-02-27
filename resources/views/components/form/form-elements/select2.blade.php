@@ -23,11 +23,12 @@
   name="{{ $fieldName }}"
   id="{{ $id ?? $baseName }}"
   data-select2="true"
+  data-required="{{ $attributes->has('required') ? 'true' : 'false' }}"
   data-placeholder="{{ $placeholder }}"
   data-allow-clear="{{ $allowClear ? 'true' : 'false' }}"
   @if($dropdownParent) data-dropdown-parent="{{ $dropdownParent }}" @endif
   @if($multiple) multiple @endif
-  {{ $attributes->merge(['class' => 'h-11 w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200']) }}
+  {{ $attributes->merge(['class' => 'h-11 w-full rounded-lg border border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200']) }}
 >
   @unless($multiple)
     <option value="">{{ $placeholder }}</option>
@@ -48,6 +49,30 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
     />
+    <style>
+      .dark .choices__inner {
+        background-color: #111827;
+        border-color: #374151;
+        color: rgb(229 231 235);
+      }
+      .dark .choices__input {
+        background-color: transparent;
+        color: rgb(229 231 235);
+      }
+      .dark .choices__list--dropdown,
+      .dark .choices__list[aria-expanded] {
+        background-color: #111827;
+        border-color: #374151;
+        color: rgb(229 231 235);
+      }
+      .dark .choices__list--dropdown .choices__item--selectable.is-highlighted,
+      .dark .choices__list[aria-expanded] .choices__item--selectable.is-highlighted {
+        background-color: #1f2937;
+      }
+      .dark .choices[data-type*=select-multiple] .choices__button {
+        border-left-color: #4b5563;
+      }
+    </style>
   @endpush
   @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
@@ -86,3 +111,4 @@
     </script>
   @endpush
 @endonce
+

@@ -106,6 +106,36 @@
             target.reportValidity();
           }
         });
+
+        document.addEventListener('submit', function (event) {
+          const form = event.target;
+          if (!(form instanceof HTMLFormElement)) return;
+
+          // Ensure required multi-select/select2 fields are validated reliably.
+          form.querySelectorAll('select[data-select2=\"true\"], select[multiple][required]').forEach((selectEl) => {
+            const isSelect2Required = selectEl.dataset.select2 === 'true' && selectEl.dataset.required === 'true';
+            const isNativeRequired = selectEl.required;
+            if (!isSelect2Required && !isNativeRequired) {
+              selectEl.setCustomValidity('');
+              return;
+            }
+
+            const hasValue = Array.from(selectEl.selectedOptions || []).some((opt) => String(opt.value || '').trim() !== '');
+            if (!hasValue) {
+              selectEl.setCustomValidity('Please select at least one option.');
+            } else {
+              selectEl.setCustomValidity('');
+            }
+          });
+
+          // Re-check file inputs in case user submits directly without change event.
+          form.querySelectorAll('input[type=\"file\"]').forEach(validateFileInput);
+
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            form.reportValidity();
+          }
+        }, true);
       })();
     </script>
   @endpush
