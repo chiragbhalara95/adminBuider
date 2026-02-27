@@ -3,6 +3,7 @@
   'id' => null,
   'label' => null,
   'checked' => false,
+  'value' => 1,
 ])
 
 <label class="inline-flex items-center gap-3">
@@ -11,7 +12,7 @@
     type="checkbox"
     name="{{ $name }}"
     id="{{ $id ?? $name }}"
-    value="1"
+    value="{{ $value }}"
     class="peer sr-only"
     @checked(old($name, $checked))
     {{ $attributes->except('class') }}

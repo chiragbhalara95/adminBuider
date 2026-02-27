@@ -20,6 +20,6 @@
       $currentValue = $name ? ($values[$name] ?? null) : null;
     @endphp
 
-    <x-ui.dynamic-field :field="$field" :value="$currentValue" />
+    <x-dynamic-field :field="$field" :value="$currentValue" />
   @endforeach
 </div>

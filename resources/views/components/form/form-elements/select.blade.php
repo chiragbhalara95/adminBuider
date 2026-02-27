@@ -13,8 +13,6 @@
 >
   <option value="">{{ $placeholder }}</option>
   @foreach($options as $key => $label)
-    <option value="{{ $key }}" @selected((string) old($name, $selected) === (string) $key)>
-      {{ $label }}
-    </option>
+    <option value="{{ $key }}" @selected((string) old($name, $selected) === (string) $key)>{{ $label }}</option>
   @endforeach
 </select>
