@@ -1,0 +1,1 @@
+@include('components.form.form-elements.input', get_defined_vars())

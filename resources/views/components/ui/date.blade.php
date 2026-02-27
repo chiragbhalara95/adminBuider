@@ -1,0 +1,1 @@
+@include('components.form.form-elements.date', get_defined_vars())

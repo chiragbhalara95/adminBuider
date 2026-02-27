@@ -7,20 +7,24 @@
   @php
     $dynamicFields = [
       [
-        'type' => 'text',
+        'type' => 'input',
         'name' => 'full_name',
         'label' => 'Full Name',
         'placeholder' => 'Enter full name',
-        'required' => true,
+        'rules' => 'required|min:3|max:50|regex:/^[A-Za-z ]+$/',
+        'validation' => [
+          'title' => 'Only alphabets and spaces allowed.',
+        ],
       ],
       [
         'type' => 'email',
         'name' => 'email',
         'label' => 'Email',
         'placeholder' => 'you@example.com',
+        'rules' => 'required|email',
       ],
       [
-        'type' => 'select',
+        'type' => 'select2',
         'name' => 'role',
         'label' => 'Role',
         'options' => [
@@ -28,7 +32,61 @@
           'editor' => 'Editor',
           'viewer' => 'Viewer',
         ],
+        'rules' => 'required',
         'placeholder' => 'Select role',
+      ],
+      [
+        'type' => 'select2',
+        'name' => 'skills',
+        'label' => 'Skills',
+        'multiple' => true,
+        'placeholder' => 'Select skills',
+        'options' => [
+          'php' => 'PHP',
+          'laravel' => 'Laravel',
+          'vue' => 'Vue',
+          'react' => 'React',
+          'devops' => 'DevOps',
+        ],
+        'validation' => [
+          'required' => true,
+        ],
+      ],
+      [
+        'type' => 'url',
+        'name' => 'portfolio_url',
+        'label' => 'Portfolio URL',
+        'placeholder' => 'https://example.com',
+        'validation' => [
+          'maxlength' => 200,
+        ],
+      ],
+      [
+        'type' => 'number',
+        'name' => 'age',
+        'label' => 'Age',
+        'placeholder' => '18',
+        'validation' => [
+          'required' => true,
+          'min' => 18,
+          'max' => 65,
+          'step' => 1,
+        ],
+      ],
+      [
+        'type' => 'timepicker',
+        'name' => 'appointment_time',
+        'label' => 'Appointment Time',
+        'rules' => 'required',
+      ],
+      [
+        'type' => 'file',
+        'name' => 'avatar',
+        'label' => 'Avatar / Resume',
+        'validation' => [
+          'extensions' => ['jpg', 'jpeg', 'png', 'webp', 'pdf'],
+          'max_size_kb' => 2048,
+        ],
       ],
       [
         'type' => 'textarea',
@@ -36,13 +94,14 @@
         'label' => 'Bio',
         'placeholder' => 'Write short bio',
         'rows' => 4,
+        'rules' => 'max:300',
         'wrapper_class' => 'md:col-span-2',
       ],
       [
         'type' => 'checkbox',
         'name' => 'terms',
-        'label' => 'Accept terms',
-        'checked' => true,
+        'label' => 'I accept terms and conditions',
+        'rules' => 'required',
       ],
       [
         'type' => 'switch',
@@ -50,17 +109,28 @@
         'label' => 'Enable notifications',
         'checked' => true,
       ],
+      [
+        'type' => 'input-group',
+        'name' => 'salary',
+        'label' => 'Expected Salary',
+        'input_type' => 'number',
+        'prepend' => '$',
+        'append' => 'USD',
+        'validation' => [
+          'min' => 1000,
+          'max' => 50000,
+        ],
+        'placeholder' => '5000',
+      ],
     ];
 
-    $dynamicValues = [
-      'full_name' => 'Jane Doe',
-      'role' => 'editor',
-    ];
+    $dynamicValues = old();
 
     $tableColumns = [
       ['key' => 'id', 'label' => 'ID'],
       ['key' => 'name', 'label' => 'Name'],
       ['key' => 'email', 'label' => 'Email'],
+      ['key' => 'role', 'label' => 'Role'],
       [
         'key' => 'status',
         'label' => 'Status',
@@ -73,60 +143,52 @@
       ],
     ];
 
-    $tableRows = [
-      ['id' => 1, 'name' => 'Jane Doe', 'email' => 'jane@example.com', 'status' => 'Active'],
-      ['id' => 2, 'name' => 'John Smith', 'email' => 'john@example.com', 'status' => 'Pending'],
-      ['id' => 3, 'name' => 'Aisha Khan', 'email' => 'aisha@example.com', 'status' => 'Blocked'],
+    $tableRowsFallback = [
+      ['id' => 1, 'name' => 'Jane Doe', 'email' => 'jane@example.com', 'role' => 'Admin', 'status' => 'Active'],
+      ['id' => 2, 'name' => 'John Smith', 'email' => 'john@example.com', 'role' => 'Editor', 'status' => 'Pending'],
+      ['id' => 3, 'name' => 'Aisha Khan', 'email' => 'aisha@example.com', 'role' => 'Viewer', 'status' => 'Blocked'],
     ];
   @endphp
 
-  <div class="mx-auto max-w-5xl space-y-6 rounded-2xl bg-white p-6 shadow">
-    <h1 class="text-xl font-semibold text-gray-900">Laravel UI Components</h1>
+  <div class="mx-auto max-w-7xl space-y-6">
+    <div class="rounded-2xl bg-white p-6 shadow">
+      <h1 class="text-2xl font-semibold text-gray-900">UI Components Demo</h1>
+      <p class="mt-1 text-sm text-gray-600">Dynamic fields, dynamic form validation, select2, and AJAX datatable.</p>
 
-    <div>
-      <x-ui.label for="name" required>Name</x-ui.label>
-      <x-ui.input name="name" id="name" placeholder="Enter name" />
+      @if(session('demo_success'))
+        <x-ui.alert variant="success" class="mt-4">{{ session('demo_success') }}</x-ui.alert>
+      @endif
     </div>
 
-    <div>
-      <x-ui.label for="role">Role</x-ui.label>
-      <x-ui.select name="role" :options="['admin' => 'Admin', 'editor' => 'Editor', 'viewer' => 'Viewer']" selected="editor" />
+    <div class="rounded-2xl bg-white p-6 shadow">
+      <h2 class="text-lg font-semibold text-gray-900">Dynamic Form With Validation</h2>
+      <p class="mt-1 text-sm text-gray-600">Rules include required, min/max, minlength/maxlength, pattern, URL, and file extension/size checks.</p>
+
+      <x-dynamic-form
+        :action="route('demo.form.submit')"
+        method="POST"
+        :fields="$dynamicFields"
+        :values="$dynamicValues"
+        :columns="2"
+        submitLabel="Validate and Submit"
+      />
     </div>
 
-    <div>
-      <x-ui.label for="bio">Bio</x-ui.label>
-      <x-ui.textarea name="bio" id="bio" rows="4" placeholder="Write something..."></x-ui.textarea>
-    </div>
-
-    <div class="space-y-3">
-      <x-ui.checkbox name="terms" label="Accept terms" :checked="true" />
-      <x-ui.switch name="notify" label="Enable notifications" :checked="true" />
-    </div>
-
-    <div class="flex flex-wrap gap-3">
-      <x-ui.button>Primary</x-ui.button>
-      <x-ui.button variant="secondary">Secondary</x-ui.button>
-      <x-ui.button variant="success">Success</x-ui.button>
-      <x-ui.button variant="danger">Danger</x-ui.button>
-    </div>
-
-    <div class="space-y-3 border-t border-gray-200 pt-6">
-      <h2 class="text-lg font-semibold text-gray-900">Dynamic Fields (Array Driven)</h2>
-      <x-ui.dynamic-fields :fields="$dynamicFields" :values="$dynamicValues" :columns="2" />
-    </div>
-
-    <div class="space-y-3 border-t border-gray-200 pt-6">
-      <h2 class="text-lg font-semibold text-gray-900">DataTable (Array Driven)</h2>
+    <div class="rounded-2xl bg-white p-6 shadow">
+      <h2 class="text-lg font-semibold text-gray-900">DataTable With AJAX, Search, Sort, Filters, Pagination</h2>
       <x-ui.datatable
-        id="users-table"
+        id="users-table-demo"
         :columns="$tableColumns"
-        :rows="$tableRows"
+        :url="route('demo.users.ajax')"
+        :rows="$tableRowsFallback"
         :filters="[
-          ['key' => 'status', 'label' => 'Status'],
+          ['key' => 'status', 'label' => 'Status', 'options' => ['Active' => 'Active', 'Pending' => 'Pending', 'Blocked' => 'Blocked']],
         ]"
         :showIndex="true"
-        :perPage="2"
-        :perPageOptions="[2, 5, 10]"
+        :perPage="5"
+        :perPageOptions="[5, 10, 25]"
+        initialSortBy="id"
+        initialSortDir="asc"
       />
     </div>
   </div>

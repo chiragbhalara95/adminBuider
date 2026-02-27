@@ -10,17 +10,18 @@
 ])
 
 @php
-  $selectedValues = old($name, $selected);
+  $baseName = $name ? preg_replace('/\[\]$/', '', $name) : $name;
+  $selectedValues = old($baseName, $selected);
   if ($multiple && !is_array($selectedValues)) {
-    $selectedValues = $selectedValues !== null ? [$selectedValues] : [];
+    $selectedValues = $selectedValues !== null && $selectedValues !== '' ? [$selectedValues] : [];
   }
 
-  $fieldName = $multiple && $name && !str_ends_with($name, '[]') ? $name.'[]' : $name;
+  $fieldName = $multiple && $baseName && !str_ends_with($baseName, '[]') ? $baseName.'[]' : $baseName;
 @endphp
 
 <select
   name="{{ $fieldName }}"
-  id="{{ $id ?? $name }}"
+  id="{{ $id ?? $baseName }}"
   data-select2="true"
   data-placeholder="{{ $placeholder }}"
   data-allow-clear="{{ $allowClear ? 'true' : 'false' }}"
@@ -40,3 +41,48 @@
     @endif
   @endforeach
 </select>
+
+@once
+  @push('head')
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
+    />
+  @endpush
+  @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script>
+      (function () {
+        function initSelect2Like(selectEl) {
+          if (!selectEl || selectEl.dataset.choicesInitialized === 'true') return;
+          if (typeof Choices === 'undefined') return;
+
+          const isMultiple = selectEl.multiple;
+          const placeholder = selectEl.dataset.placeholder || 'Select option';
+          const allowClear = selectEl.dataset.allowClear === 'true';
+
+          new Choices(selectEl, {
+            allowHTML: false,
+            searchEnabled: true,
+            shouldSort: false,
+            removeItemButton: isMultiple || allowClear,
+            placeholder: true,
+            placeholderValue: placeholder,
+            searchPlaceholderValue: 'Search...',
+            itemSelectText: '',
+          });
+
+          selectEl.dataset.choicesInitialized = 'true';
+        }
+
+        function initAllSelect2Like() {
+          document.querySelectorAll('select[data-select2="true"]').forEach(initSelect2Like);
+        }
+
+        document.addEventListener('DOMContentLoaded', initAllSelect2Like);
+        document.addEventListener('livewire:navigated', initAllSelect2Like);
+        document.addEventListener('htmx:afterSwap', initAllSelect2Like);
+      })();
+    </script>
+  @endpush
+@endonce

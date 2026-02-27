@@ -1,0 +1,1 @@
+@include('components.form.form-elements.dropzone', get_defined_vars())
