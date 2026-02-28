@@ -13,6 +13,24 @@ Route::get('/', function () {
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
+    Route::get('/forgot-password', [LoginController::class, 'showForgotPasswordForm'])->name('password.request');
+    Route::post('/forgot-password', [LoginController::class, 'sendResetPasswordEmail'])->name('password.email');
+    Route::get('/reset-password', function (Request $request) {
+        $token = (string) $request->query('token', '');
+        $email = (string) $request->query('email', '');
+
+        if ($token === '') {
+            return redirect()->route('password.request')
+                ->withErrors(['email' => 'Invalid or expired password reset link.']);
+        }
+
+        return redirect()->route('password.reset', [
+            'token' => $token,
+            'email' => $email,
+        ]);
+    });
+    Route::get('/reset-password/{token}', [LoginController::class, 'showResetPasswordForm'])->name('password.reset');
+    Route::post('/reset-password', [LoginController::class, 'resetPassword'])->name('password.update');
 
     Route::get('/signup', [LoginController::class, 'showSignupForm'])->name('signup');
     Route::post('/signup', [LoginController::class, 'signup'])->name('signup.submit');
@@ -26,7 +44,7 @@ Route::middleware('guest')->group(function () {
         ->name('verification.verify');
 });
 
-// Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/dashboard', function () {
@@ -104,4 +122,4 @@ Route::middleware('guest')->group(function () {
             'last_page' => $lastPage,
         ]);
     })->name('demo.users.ajax');
-// });
+});

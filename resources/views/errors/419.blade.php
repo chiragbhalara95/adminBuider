@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>419 | Page Expired</title>
+  <link rel="icon" href="{{ asset('favicon.ico') }}" />
+
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body
+  x-data="{ page: 'page419', loaded: true, darkMode: false, stickyMenu: false, sidebarToggle: false, scrollTop: false }"
+  x-init="darkMode = JSON.parse(localStorage.getItem('darkMode')); $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
+  :class="{'dark bg-gray-900': darkMode === true}"
+>
+  <div
+    x-show="loaded"
+    x-init="window.addEventListener('DOMContentLoaded', () => { setTimeout(() => loaded = false, 500) })"
+    class="fixed left-0 top-0 z-999999 flex h-screen w-screen items-center justify-center bg-white dark:bg-black"
+  >
+    <div class="h-16 w-16 animate-spin rounded-full border-4 border-solid border-brand-500 border-t-transparent"></div>
+  </div>
+
+  <div class="relative z-1 flex min-h-screen flex-col items-center justify-center overflow-hidden p-6">
+    <div class="absolute right-0 top-0 -z-1 w-full max-w-[250px] xl:max-w-[450px]">
+      <img src="{{ asset('images/shape/grid-01.svg') }}" alt="grid" />
+    </div>
+    <div class="absolute bottom-0 left-0 -z-1 w-full max-w-[250px] rotate-180 xl:max-w-[450px]">
+      <img src="{{ asset('images/shape/grid-01.svg') }}" alt="grid" />
+    </div>
+
+    <div class="mx-auto w-full max-w-[242px] text-center sm:max-w-[472px]">
+      <h1 class="mb-8 text-title-md font-bold text-gray-800 dark:text-white/90 xl:text-title-2xl">ERROR</h1>
+
+      <p class="text-[120px] leading-none font-bold text-brand-500 sm:text-[180px]">419</p>
+
+      <p class="mb-6 mt-10 text-base text-gray-700 dark:text-gray-400 sm:text-lg">
+        Your session has expired. Please refresh and try again.
+      </p>
+
+      <a
+        href="{{ url()->previous() }}"
+        class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3.5 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200"
+      >
+        Go Back
+      </a>
+    </div>
+
+    <p class="absolute bottom-6 left-1/2 -translate-x-1/2 text-center text-sm text-gray-500 dark:text-gray-400">
+      &copy; {{ now()->year }} - TailAdmin
+    </p>
+  </div>
+</body>
+</html>
