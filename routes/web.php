@@ -13,7 +13,17 @@ Route::get('/', function () {
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
-    Route::get('/signup', fn () => view('auth.signup'))->name('signup');
+
+    Route::get('/signup', [LoginController::class, 'showSignupForm'])->name('signup');
+    Route::post('/signup', [LoginController::class, 'signup'])->name('signup.submit');
+
+    Route::post('/email/verification-notification', [LoginController::class, 'resendVerificationEmail'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
+
+    Route::get('/email/verify/{id}/{hash}', [LoginController::class, 'verifyEmail'])
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
 });
 
 // Route::middleware('auth')->group(function () {
