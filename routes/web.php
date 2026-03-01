@@ -48,9 +48,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-    Route::get('/dashboard', function () {
-    return view('ui-components-demo');
-})->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
 
     Route::post('/dashboard/demo-form', function (Request $request) {
