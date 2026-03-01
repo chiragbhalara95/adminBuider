@@ -16,7 +16,7 @@ class DashboardController extends Controller
             'role' => 'Team Manager',
             'location' => 'Arizona, United States',
             'avatar' => 'https://i.pravatar.cc/160?img=12',
-            'socials' => ['FB', 'X', 'IN', 'IG'],
+            'socials' => ['facebook', 'x', 'linkedin', 'instagram'],
         ];
 
         $personalInformation = [

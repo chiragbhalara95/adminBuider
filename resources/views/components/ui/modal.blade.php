@@ -29,12 +29,12 @@
   @endif
   x-on:keydown.escape.window="@if($closeable) open = false @endif"
   x-show="open"
-  class="fixed inset-0 z-50 overflow-y-auto"
+  class="fixed inset-0 z-[99999] overflow-y-auto"
   style="display: none;"
 >
   <div class="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0">
     <div
-      class="fixed inset-0 bg-gray-900/50 transition-opacity"
+      class="fixed inset-0 bg-gray-400/50 backdrop-blur-[32px] transition-opacity"
       x-show="open"
       x-transition.opacity
       @if($closeable) x-on:click="open = false" @endif
