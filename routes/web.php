@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -48,8 +49,9 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/dashboard', function () {
-        return view('ui-components-demo');
-    })->name('dashboard');
+    return view('ui-components-demo');
+})->name('dashboard');
+    Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
 
     Route::post('/dashboard/demo-form', function (Request $request) {
         $validated = $request->validate([
