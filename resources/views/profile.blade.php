@@ -71,14 +71,13 @@
             </div>
           </div>
 
-          <x-ui.button
+          <button
             type="button"
-            variant="secondary"
-            class="w-full lg:w-auto"
             x-on:click="$dispatch('open-modal', 'profile-info-modal')"
+            class="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
           >
             Edit
-          </x-ui.button>
+          </button>
         </div>
       </div>
 
@@ -97,14 +96,13 @@
             </div>
           </div>
 
-          <x-ui.button
+          <button
             type="button"
-            variant="secondary"
-            class="w-full lg:w-auto"
             x-on:click="$dispatch('open-modal', 'profile-info-modal')"
+            class="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
           >
             Edit
-          </x-ui.button>
+          </button>
         </div>
       </div>
 
@@ -123,21 +121,20 @@
             </div>
           </div>
 
-          <x-ui.button
+          <button
             type="button"
-            variant="secondary"
-            class="w-full lg:w-auto"
             x-on:click="$dispatch('open-modal', 'profile-address-modal')"
+            class="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
           >
             Edit
-          </x-ui.button>
+          </button>
         </div>
       </div>
     </div>
   </div>
 
   <x-ui.modal name="profile-info-modal" maxWidth="3xl">
-    <div class="relative rounded-3xl bg-white p-6 dark:bg-gray-900 lg:p-10">
+    <div class="relative rounded-3xl bg-white p-6 dark:bg-[#101A33] lg:p-10">
       <button
         type="button"
         x-on:click="$dispatch('close-modal', 'profile-info-modal')"
@@ -158,7 +155,7 @@
             <div class="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
               @foreach($socialLinks as $label => $value)
                 <div>
-                  <x-ui.label>{{ $label }}</x-ui.label>
+                  <x-ui.label class="dark:text-gray-400">{{ $label }}</x-ui.label>
                   <x-ui.input :value="$value" />
                 </div>
               @endforeach
@@ -169,23 +166,23 @@
             <h5 class="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">Personal Information</h5>
             <div class="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
               <div>
-                <x-ui.label>First Name</x-ui.label>
+                <x-ui.label class="dark:text-gray-400">First Name</x-ui.label>
                 <x-ui.input :value="$personalInformation['First Name'] ?? ''" />
               </div>
               <div>
-                <x-ui.label>Last Name</x-ui.label>
+                <x-ui.label class="dark:text-gray-400">Last Name</x-ui.label>
                 <x-ui.input :value="$personalInformation['Last Name'] ?? ''" />
               </div>
               <div>
-                <x-ui.label>Email Address</x-ui.label>
+                <x-ui.label class="dark:text-gray-400">Email Address</x-ui.label>
                 <x-ui.input type="email" :value="$personalInformation['Email Address'] ?? ''" />
               </div>
               <div>
-                <x-ui.label>Phone</x-ui.label>
+                <x-ui.label class="dark:text-gray-400">Phone</x-ui.label>
                 <x-ui.input :value="$personalInformation['Phone'] ?? ''" />
               </div>
               <div class="lg:col-span-2">
-                <x-ui.label>Bio</x-ui.label>
+                <x-ui.label class="dark:text-gray-400">Bio</x-ui.label>
                 <x-ui.input :value="$personalInformation['Bio'] ?? ''" />
               </div>
             </div>
@@ -193,22 +190,26 @@
         </div>
 
         <div class="mt-6 flex items-center gap-3 lg:justify-end">
-          <x-ui.button
+          <button
             type="button"
-            variant="secondary"
-            class="w-full sm:w-auto"
             x-on:click="$dispatch('close-modal', 'profile-info-modal')"
+            class="flex w-full justify-center rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] sm:w-auto"
           >
             Close
-          </x-ui.button>
-          <x-ui.button type="button" class="w-full sm:w-auto">Save Changes</x-ui.button>
+          </button>
+          <button
+            type="button"
+            class="flex w-full justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 sm:w-auto"
+          >
+            Save Changes
+          </button>
         </div>
       </form>
     </div>
   </x-ui.modal>
 
   <x-ui.modal name="profile-address-modal" maxWidth="3xl">
-    <div class="relative rounded-3xl bg-white p-6 dark:bg-gray-900 lg:p-10">
+    <div class="relative rounded-3xl bg-white p-6 dark:bg-[#101A33] lg:p-10">
       <button
         type="button"
         x-on:click="$dispatch('close-modal', 'profile-address-modal')"
@@ -227,7 +228,7 @@
           <div class="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
             @foreach($address as $label => $value)
               <div>
-                <x-ui.label>{{ $label }}</x-ui.label>
+                <x-ui.label class="dark:text-gray-400">{{ $label }}</x-ui.label>
                 <x-ui.input :value="$value" />
               </div>
             @endforeach
@@ -235,15 +236,19 @@
         </div>
 
         <div class="mt-6 flex items-center gap-3 lg:justify-end">
-          <x-ui.button
+          <button
             type="button"
-            variant="secondary"
-            class="w-full sm:w-auto"
             x-on:click="$dispatch('close-modal', 'profile-address-modal')"
+            class="flex w-full justify-center rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] sm:w-auto"
           >
             Close
-          </x-ui.button>
-          <x-ui.button type="button" class="w-full sm:w-auto">Save Changes</x-ui.button>
+          </button>
+          <button
+            type="button"
+            class="flex w-full justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 sm:w-auto"
+          >
+            Save Changes
+          </button>
         </div>
       </form>
     </div>

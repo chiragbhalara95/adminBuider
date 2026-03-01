@@ -34,7 +34,7 @@
 >
   <div class="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0">
     <div
-      class="fixed inset-0 bg-gray-400/50 backdrop-blur-[32px] transition-opacity"
+      class="fixed inset-0 bg-gray-400/50 backdrop-blur-[32px] transition-opacity dark:bg-gray-900/60"
       x-show="open"
       x-transition.opacity
       @if($closeable) x-on:click="open = false" @endif
@@ -43,7 +43,7 @@
     <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
 
     <div
-      class="inline-block w-full transform overflow-hidden rounded-xl bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:align-middle {{ $maxWidthClass }}"
+      class="inline-block w-full transform overflow-hidden rounded-3xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-gray-900 sm:my-8 sm:align-middle {{ $maxWidthClass }}"
       x-show="open"
       x-transition
       {{ $attributes }}
