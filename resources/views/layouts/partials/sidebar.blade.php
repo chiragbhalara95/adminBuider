@@ -13,7 +13,7 @@
   </div>
 
   <div class="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
-    <nav>
+    <nav x-data="{ selected: @js(request()->routeIs('dashboard*') ? 'Dashboard' : '') }">
       <div>
         <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
           <span class="menu-group-title" :class="sidebarToggle ? 'lg:hidden' : ''">MENU</span>
@@ -22,11 +22,12 @@
         <ul class="mb-6 flex flex-col gap-2">
           <li>
             <a
-              href="{{ route('dashboard') }}"
-              class="menu-item group {{ request()->routeIs('dashboard') ? 'menu-item-active' : 'menu-item-inactive' }}"
+              href="#"
+              @click.prevent="selected = (selected === 'Dashboard' ? '' : 'Dashboard')"
+              class="menu-item group {{ request()->routeIs('dashboard*') ? 'menu-item-active' : 'menu-item-inactive' }}"
             >
               <svg
-                class="{{ request()->routeIs('dashboard') ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}"
+                class="{{ request()->routeIs('dashboard*') ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -41,8 +42,66 @@
                 />
               </svg>
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Dashboard</span>
+              <svg
+                class="menu-item-arrow"
+                :class="[selected === 'Dashboard' ? 'menu-item-arrow-active' : 'menu-item-arrow-inactive', sidebarToggle ? 'lg:hidden' : '']"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585"
+                  stroke=""
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </a>
+
+            <div class="overflow-hidden transform translate" :class="selected === 'Dashboard' ? 'block' : 'hidden'">
+              <ul :class="sidebarToggle ? 'lg:hidden' : 'flex'" class="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
+                <li>
+                  <a href="{{ route('dashboard') }}" class="menu-dropdown-item group {{ request()->routeIs('dashboard') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
+                    eCommerce
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('dashboard.analytics') }}" class="menu-dropdown-item group {{ request()->routeIs('dashboard.analytics') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
+                    Analytics
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('dashboard.marketing') }}" class="menu-dropdown-item group {{ request()->routeIs('dashboard.marketing') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
+                    Marketing
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('dashboard.crm') }}" class="menu-dropdown-item group {{ request()->routeIs('dashboard.crm') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
+                    CRM
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('dashboard.stocks') }}" class="menu-dropdown-item group {{ request()->routeIs('dashboard.stocks') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
+                    Stocks
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('dashboard.saas') }}" class="menu-dropdown-item group {{ request()->routeIs('dashboard.saas') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
+                    SaaS
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('dashboard.logistics') }}" class="menu-dropdown-item group {{ request()->routeIs('dashboard.logistics') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
+                    Logistics
+                  </a>
+                </li>
+              </ul>
+            </div>
           </li>
+
           <li>
             <a
               href="{{ route('profile') }}"

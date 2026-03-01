@@ -49,6 +49,12 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard/analytics', [DashboardController::class, 'analytics'])->name('dashboard.analytics');
+    Route::get('/dashboard/marketing', [DashboardController::class, 'marketing'])->name('dashboard.marketing');
+    Route::get('/dashboard/crm', [DashboardController::class, 'crm'])->name('dashboard.crm');
+    Route::get('/dashboard/stocks', [DashboardController::class, 'stocks'])->name('dashboard.stocks');
+    Route::get('/dashboard/saas', [DashboardController::class, 'saas'])->name('dashboard.saas');
+    Route::get('/dashboard/logistics', [DashboardController::class, 'logistics'])->name('dashboard.logistics');
     Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
 
     Route::post('/dashboard/demo-form', function (Request $request) {
